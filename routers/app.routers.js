@@ -10,7 +10,7 @@ const router = express.Router();
 router.use('/api', apiRoutes);
 
 router.get('/', async (req, res) => {
-  const user = await req.session.user;
+  const user = await req.user;
   if (user) {
     return res.redirect('/profile');
   }
@@ -20,19 +20,17 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/profile', auth, async (req, res) => {
-  const user = req.session.user;
+  //Forma de acceder a la session mediante "passport"
+  const user = req.user;
   res.render('profile', { sessionUser: user });
 });
 
 router.get('/logout', auth, (req, res, next) => {
-    req.session.destroy((err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.clearCookie('coder-session');
-        res.redirect('/');
-      }
-    });
+  //Forma de desloguearse con "passport"
+  req.logOut();
+  console.log('User logued out!');
+  
+  res.redirect('/');
 });
 
 module.exports = router;

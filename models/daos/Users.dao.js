@@ -18,7 +18,7 @@ const Account = new AccountsDao();
 
 class UsersDao extends MongoDBContainer {
   static instance;
-  constructor() {
+  constructor() { //Patrón Singleton
     if (!UsersDao.instance) {
       super(collection, UserSchema);
       UsersDao.instance = this;

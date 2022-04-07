@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
-
+const passport = require('./middlewares/passport');
 
 const env = require('./env.config');
 const dbConfig = require('./db/config');
@@ -14,15 +14,20 @@ const app = express();
 
 // Middlewares
 app.use(express.static('./public'));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(session({
-  name: 'coder-session',
+  name: 'mi-sesion-demo-pb-25',
   secret: env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: dbConfig.mongodb.connectTo('sessions')
+    mongoUrl: dbConfig.mongodb.connectTo('sesiones')
   })
 }));
+//Para poder utilizar passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Template engines
 app.set('views', './views');
@@ -33,7 +38,7 @@ app.use(apisRoutes);
 
 
 app.listen(PORT, async () => {
-  mongoose.connect(dbConfig.mongodb.connectTo('ecommerce'))
+  mongoose.connect(dbConfig.mongodb.connectTo('demo_pb_25'))
   .then(() => {
     console.log('Connected to DB!');
     console.log('Server is up and running on port: ', +PORT);

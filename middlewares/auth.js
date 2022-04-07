@@ -1,5 +1,6 @@
 const auth = async (req, res, next) => {
-  if (req.session.user) {
+  //Se verifica con "passport" si el usuario está autenticado
+  if (req.isAuthenticated()) {
     next();
   }
   else {
