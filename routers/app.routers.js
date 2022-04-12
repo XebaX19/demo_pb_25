@@ -26,7 +26,7 @@ router.get('/profile', auth, async (req, res) => {
 });
 
 router.get('/logout', auth, (req, res, next) => {
-  //Forma de desloguearse con "passport"
+  //Forma de desloguearse con "passport" (chequear que no se borra la session en MongoAtlas...)
   req.logOut();
   console.log('User logued out!');
   

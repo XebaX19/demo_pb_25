@@ -1,21 +1,20 @@
 const moment = require('moment');
 
 const formatUserForDB = (userObj) => {
-  const today = moment();
 
-  const birthdate = moment(userObj.birthdate, "MMMM DD, YYYY").startOf('day');
-  const userAge = today.diff(birthdate, 'years');
   const newUser = {
-    firstname: userObj.firstname,
-    lastname: userObj.lastname,
-    birthdate: birthdate.format('DD-MM-YYYY'),
-    age: +userAge,
-    email: userObj.email,
-    password: userObj.password,
+    ...userObj,
     createdAt: new Date(),
     updatedAt: new Date(),
     accounts: null
   };
+  if (userObj.birthdate) {
+    const today = moment();
+    const birthdate = moment(userObj.birthdate, "MMMM DD, YYYY").startOf('day');
+    newUser.birthdate = birthdate.format('DD-MM-YYYY');
+    const userAge = today.diff(birthdate, 'years');
+    newUser.age = +userAge;
+  }
   return newUser;
 };
 

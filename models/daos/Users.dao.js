@@ -84,6 +84,20 @@ class UsersDao extends MongoDBContainer {
       throw new Error(JSON.stringify(newError));
     }
   }
+
+  async getByTwitterId(twitterId) {
+    try {
+      const document = await this.model.findOne({ twitterId }, { __v: 0 }).populate('accounts');
+      if (!document) {
+        return null;
+      } else {
+        return document;
+      }
+    } catch (error) {
+      const newError = formatErrorObject(INTERNAL_ERROR.tag, error.message);
+      throw new Error(JSON.stringify(newError));
+    }
+  }
 };
 
 module.exports = UsersDao;

@@ -5,10 +5,9 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  birthdate: { type: String, required: true },
+  birthdate: { type: String },
   age: { 
     type: Number, 
-    required: true, 
     min: [18, 'Age is below minimun required'],
     max: [150, 'Age exceeds maximum value allowed'],
   },
@@ -21,10 +20,12 @@ const UserSchema = new Schema({
       "Invalid email",
     ],
   },
-  password: { type: String, required: true },
+  password: { type: String },
+  twitterId: { type: Number },
   createdAt: { type: Date, required: true },
   updatedAt: { type: Date, required: true },
   accounts: [{ type: Schema.Types.ObjectId, ref: "Account", required: true }],
 });
 UserSchema.index({ email: 1 });
+UserSchema.index({ twitterId: 1 });
 module.exports = UserSchema;

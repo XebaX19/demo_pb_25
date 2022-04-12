@@ -18,4 +18,21 @@ router.post(
     authControllers.login
 );
 
+// URL completa => /api/auth/twitter
+//Inicia el flujo de autenticación con Twitter
+router.get(
+    '/twitter',
+    //Definimos la estrategia definida en middlewares/passport.js para el login con Twitter
+    passport.authenticate('twitter')
+);
+
+// URL completa => /api/auth/twitter/callback
+router.get(
+    '/twitter/callback',
+    passport.authenticate('twitter', {
+        successRedirect: '/profile',
+        failureRedirect: '/twitter-error'
+    })
+);
+
 module.exports = router;
